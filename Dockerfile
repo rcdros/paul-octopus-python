@@ -7,4 +7,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD entrypoint.sh
+CMD /app/entrypoint.sh
