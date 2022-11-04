@@ -18,7 +18,9 @@ def index():
 @app.route("/predict/<predictor_name>")
 def predict(predictor_name):
 
+    # Download all the files that you need for your predictors
     download_file_from_azure(container_name='files', blob_name='sample_predictions_submission.csv')
+    download_file_from_azure(container_name='files', blob_name='historical_win-loose-draw_ratios.csv')
 
     matches = read_csv('sample_predictions_submission.csv')
 
