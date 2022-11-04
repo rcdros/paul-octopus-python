@@ -35,9 +35,4 @@ def predict(predictor_name):
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080)
 
-    # Argparse to select predictor, input and output (default values when not passed)
-
-    # Abstract class to load data, sample implementation for csv load data
-    # Abstract class to prediction, sample implementations for dummy predictors
-    # Abstract class to output data, sample implementation for csv file (other examples: Save to GCS, Save to BQ...)
 
