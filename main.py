@@ -22,15 +22,18 @@ def predict(predictor_name):
     download_file_from_azure(container_name='files', blob_name='sample_predictions_submission.csv')
     download_file_from_azure(container_name='files', blob_name='historical_win-loose-draw_ratios.csv')
 
+    # Use a sample file to load all matches
     matches = read_csv('sample_predictions_submission.csv')
 
+    # Instantiate the Predictor class based on the predictor_name
     PredictorClass = getattr(importlib.import_module(f'predictor.{predictor_name}'), predictor_name)
     predictor: AbstractPredictor = PredictorClass()
 
+    # Make predictions and write them into the predictions.csv file
     predictions = predictor.predict(matches)
-    print(predictions)
     write_csv(predictions, ['home', 'home_score', 'away_score', 'away'], 'predictions.csv')
 
+    # Return the predictions.csv file for downloading
     return send_from_directory('.', 'predictions.csv')
 
 
