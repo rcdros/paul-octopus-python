@@ -111,3 +111,6 @@ In this example, it will instantiate the `OneZeroPredictor` class and call the m
 The browser will download the CSV file called `predictions.csv`.
 
 This file that you just download contains the predictions from your algorith and should be ready to submit.
+
+
+http://rico-predictor.ehf2baadfff9ezbq.brazilsouth.azurecontainer.io:8080/predict/OneZeroPredictor
