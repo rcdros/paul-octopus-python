@@ -10,7 +10,9 @@ import tensorflow as tf
 import random as rd
 from predictor.AbstractPredictor import AbstractPredictor
 
-class RicoPredict(AbstractPredictor):
+class RicoPredictor(AbstractPredictor):
+    def predict_match(self, home, away):
+        pass
 
     def predict(self):
         # datasetRanking = pd.read_csv('/home/ricardors/projetos/pauloctopus/paul-octopus-python/predictor/files/ranking.csv')
@@ -21,24 +23,27 @@ class RicoPredict(AbstractPredictor):
         historicalResults = pd.read_csv('historical-results.csv')
         matchSchedules = pd.read_csv('matches-schedule.csv')
 
-
         ##lista times da copa...
-
         list_countries = set()
-        for row in matchSchedules.iterrows():
+        for index, row in matchSchedules.iterrows():
             list_countries.add(row["country1"])
             list_countries.add(row["country2"])
 
         _year = "2022-10-06"
+        last_cup = ""
+        #last_cup = "2017-12-31"
         #teamRanking = datasetRanking[(datasetRanking["country_full"] == _teamMain) & (datasetRanking["rank_date"] == _year)]
 
         #list_countries.add("Morocco")
 
         resultChallengers = []
+        progress = 0
+        progress_total = len(list_countries)
         for teamCountry in list_countries:
             _teamMain = teamCountry
 
-            print("###== TEAM MAIN "+ _teamMain+" ==####")
+            progress += 1
+            print("###== TEAM MAIN "+ _teamMain+" ==#### ==> " +str(int(round((progress*100)/progress_total,0))) +" %")
 
             _matches = []
             _indexRow = 0
@@ -121,16 +126,28 @@ class RicoPredict(AbstractPredictor):
                     })
                     
             historicTeam = historicalResults[(historicalResults["home_team"]==transform_contry(_teamMain)) & (historicalResults["tournament"]=="FIFA World Cup") & (historicalResults["date"] >= "1960-01-01")]
+            if len(last_cup) > 0 :
+                historicTeam = historicTeam[(historicTeam["date"] < last_cup)]
+
             calculeMatchesHome(historicTeam, _indexRow)
 
             historicTeam = historicalResults[(historicalResults["away_team"]==transform_contry(_teamMain)) & (historicalResults["tournament"]=="FIFA World Cup") & (historicalResults["date"] >= "1960-01-01")]
+            if len(last_cup) > 0 :
+                historicTeam = historicTeam[(historicTeam["date"] < last_cup)]
+            
             calculeMatchesAway(historicTeam, _indexRow)
 
             if len(_matches) == 0:
                 historicTeam = historicalResults[(historicalResults["home_team"]==transform_contry(_teamMain)) & (historicalResults["tournament"]!="FIFA World Cup")]
+                if len(last_cup) > 0 :
+                    historicTeam = historicTeam[(historicTeam["date"] < last_cup)]
+            
                 calculeMatchesHome(historicTeam, _indexRow)
 
                 historicTeam = historicalResults[(historicalResults["away_team"]==transform_contry(_teamMain)) & (historicalResults["tournament"]!="FIFA World Cup")]
+                if len(last_cup) > 0 :
+                    historicTeam = historicTeam[(historicTeam["date"] < last_cup)]
+            
                 calculeMatchesAway(historicTeam, _indexRow)
 
 
@@ -182,8 +199,11 @@ class RicoPredict(AbstractPredictor):
 
             
             dataFrameMatch = pd.DataFrame(_matches)
-            x = dataFrameMatch['rating'].values.reshape(-1, 1)
-            y = dataFrameMatch['result'].values.reshape(-1, 1)
+            try:
+                x = dataFrameMatch['rating'].values.reshape(-1, 1)
+                y = dataFrameMatch['result'].values.reshape(-1, 1)
+            except:
+                print(_matches)
 
             dfchallengers = pd.DataFrame(challengers)
 
@@ -191,7 +211,7 @@ class RicoPredict(AbstractPredictor):
             secondMatch = []
             thirdMatch = []
             #1,2,3,4,5,6,7,8,9,10
-            for xtime in [1,2,3,4,5]:
+            for xtime in [1,2,3,4,5,6,7,8,9,10,11]:
                 # Treino o Conjunto de Testes
                 #x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.4,shuffle = True)
 
@@ -264,9 +284,9 @@ class RicoPredict(AbstractPredictor):
 
             #---Relacionar as vitórias com os goals... challanger vs Goals..????
 
-            ##------ treinar goals... removendo jogos com mais de 4 goals...
-            goalsVitoria = list(filter(lambda match: match["vitoria"] == 1 and match["goalpro"] <= 3, _matches))
-            goalsEmpate = list(filter(lambda match: match["result"] == 1 and match["goalpro"] <= 4, _matches))
+            ##------ treinar goals... removendo jogos com mais de 5 goals...
+            goalsVitoria = list(filter(lambda match: match["vitoria"] == 1 and match["goalpro"] <= 4, _matches))
+            goalsEmpate = list(filter(lambda match: match["result"] == 0 and match["goalpro"] <= 4, _matches))
             goalsEDerrota = list(filter(lambda match: match["derrota"] == -1 and match["goalcontra"] <= 4, _matches))
 
             #modelo de regressão
@@ -279,6 +299,19 @@ class RicoPredict(AbstractPredictor):
             indice_derrota = -0.4
 
             ### VITORIAS
+            if len(goalsVitoria) == 0:
+                #empate dummy
+                goalsVitoria.append({
+                        "team":"dummy",
+                        "date": _year,
+                        "rating": 1100,
+                        "result": 1,
+                        "vitoria": 1,
+                        "derrota": 0,
+                        "goalpro": 1,
+                        "goalcontra":0
+                    })
+
             willWinChallengers = list(filter(lambda match: match["result"] > indice_vitoria, challengers))
             for challenger in willWinChallengers:
                 #--Goals Pro
@@ -338,6 +371,19 @@ class RicoPredict(AbstractPredictor):
                             "away": challenger["country2"]
                         })
             
+            if len(goalsEDerrota) == 0:
+                #derrota dummy
+                goalsEDerrota.append({
+                        "team":"dummy",
+                        "date": _year,
+                        "rating": 1100,
+                        "result": -1,
+                        "vitoria": 0,
+                        "derrota": -1,
+                        "goalpro": 0,
+                        "goalcontra":1 
+                    })
+
             dfgoalsDerrota = pd.DataFrame(goalsEDerrota)
             willWinChallengers = list(filter(lambda match: match["result"] <= indice_derrota, challengers))
             for challenger in willWinChallengers:
@@ -404,12 +450,27 @@ class RicoPredict(AbstractPredictor):
 
 
             ### EMPATE
+            if len(goalsEmpate) == 0:
+                #empate dummy
+                goalsEmpate.append({
+                        "team":"dummy",
+                        "date": _year,
+                        "rating": 1100,
+                        "result": 0,
+                        "vitoria": 0,
+                        "derrota": 0,
+                        "goalpro": 0,
+                        "goalcontra":0
+                    })
             dfgoalsEmpate = pd.DataFrame(goalsEmpate)
             willWinChallengers = list(filter(lambda match: match["result"] > indice_derrota and match["result"] <= indice_vitoria, challengers))
             for challenger in willWinChallengers:
                 #--Goals Contra
-                x = dfgoalsEmpate['rating'].values.reshape(-1, 1)
-                y = dfgoalsEmpate['goalcontra'].values.reshape(-1, 1)
+                try:
+                    x = dfgoalsEmpate['rating'].values.reshape(-1, 1)
+                    y = dfgoalsEmpate['goalcontra'].values.reshape(-1, 1)
+                except:
+                    print(challenger)
 
                 colum_x = [tf.feature_column.numeric_column("x",shape=[1])]
                 regressorGoalsEmpate = tf.estimator.LinearRegressor(feature_columns=colum_x)
@@ -420,7 +481,10 @@ class RicoPredict(AbstractPredictor):
                 metricas_treino = regressorGoalsEmpate.evaluate(conjunto_treinamento,steps =10000)
 
                 dfchallengers = pd.DataFrame([challenger])
-                predict_x = dfchallengers['rating'].values.reshape(-1, 1)
+                try:
+                    predict_x = dfchallengers['rating'].values.reshape(-1, 1)
+                except:
+                    print(challenger)
                 predict_model = tf.compat.v1.estimator.inputs.numpy_input_fn({"x":predict_x}, batch_size=32, shuffle = False)
                 for idx, prediction in enumerate(regressorGoalsEmpate.predict(input_fn = predict_model)):
                     goal = max(0, int(round(float(prediction["predictions"]), 0)))

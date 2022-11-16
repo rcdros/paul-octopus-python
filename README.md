@@ -112,5 +112,8 @@ The browser will download the CSV file called `predictions.csv`.
 
 This file that you just download contains the predictions from your algorith and should be ready to submit.
 
+docker build -t pauloctopus.azurecr.io/ricardors-predictor .
+docker push pauloctopus.azurecr.io/ricardors-predictor
 
 http://rico-predictor.ehf2baadfff9ezbq.brazilsouth.azurecontainer.io:8080/predict/OneZeroPredictor
+http://rico-predictor.ehf2baadfff9ezbq.brazilsouth.azurecontainer.io:8080/predict/RicoPredictor
