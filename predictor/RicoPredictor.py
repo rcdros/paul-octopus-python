@@ -51,6 +51,66 @@ class RicoPredictor(AbstractPredictor):
             def transform_contry(_name):
                 if _name == "USA":
                     return "United States"
+                elif _name == "Korea Republic":
+                    return "South Korea"
+
+                elif _name == "Cabo Verde":
+                    return "Cape Verde"
+
+                elif _name == "Cape Verde Islands":
+                    return "Cape Verde"
+
+                elif _name == "Congo DR":
+                    return "Congo DR"
+
+                elif _name == "Côte d'Ivoire":
+                    return "Ivory Coast"
+
+                elif _name == "Curacao":
+                    return "Curaçao"
+
+                elif _name == "FYR Macedonia":
+                    return "North Macedonia"
+
+                elif _name == "IR Iran":
+                    return "Iran"
+
+                elif _name == "Korea DPR":
+                    return "North Korea"
+
+                elif _name == "Kyrgyz Republic":
+                    return "Kyrgyzstan"
+
+                elif _name == "Sao Tome e Principe":
+                    return "São Tomé and Príncipe"
+
+                elif _name == "São Tomé e Príncipe":
+                    return "São Tomé and Príncipe"
+
+                elif _name == "St. Kitts and Nevis":
+                    return "Saint Kitts and Nevis"
+
+                elif _name == "St. Lucia":
+                    return "Saint Lucia"
+
+                elif _name == "St. Vincent / Grenadines":
+                    return "Saint Vincent and the Grenadines"
+
+                elif _name == "St. Vincent and the Grenadines":
+                    return "Saint Vincent and the Grenadines"
+
+                elif _name == "Swaziland":
+                    return "Eswatini"
+
+                elif _name == "Türkiye":
+                    return "Turkey"
+
+                elif _name == "US Virgin Islands":
+                    return "United States Virgin Islands"
+
+                elif _name == "Zaire":
+                    return "DR Congo"
+
                 else:
                     return _name
 

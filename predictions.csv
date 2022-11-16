@@ -1,49 +1,49 @@
 home,home_score,away_score,away
-Belgium,3,0,Canada
-Belgium,3,1,Morocco
-Germany,4,0,Japan
 Croatia,2,2,Canada
-Croatia,2,2,Belgium
-Costa Rica,1,1,Germany
+Croatia,3,3,Belgium
+Costa Rica,2,2,Germany
+Qatar,2,0,Ecuador
+Qatar,4,0,Senegal
+Saudi Arabia,0,1,Mexico
+Poland,0,1,Saudi Arabia
+Poland,0,4,Argentina
+Japan,0,0,Costa Rica
+Japan,1,1,Spain
+Portugal,0,5,Uruguay
+Portugal,0,0,Ghana
 Brazil,0,0,Serbia
 Brazil,1,1,Switzerland
-France,1,0,Australia
-France,2,0,Denmark
-Tunisia,0,1,Australia
-Tunisia,0,1,France
-Ghana,0,2,Uruguay
-Wales,1,1,Iran
-Wales,0,0,England
-Poland,0,5,Saudi Arabia
-Poland,0,3,Argentina
-Morocco,0,1,Croatia
-Qatar,1,1,Ecuador
-Qatar,2,2,Senegal
-South Korea,1,1,Ghana
-South Korea,3,3,Portugal
-Cameroon,0,3,Serbia
-Cameroon,0,4,Brazil
-Spain,1,0,Costa Rica
-Spain,4,1,Germany
-Senegal,2,1,Netherlands
-Denmark,1,1,Tunisia
-Mexico,0,0,Poland
-Switzerland,2,0,Cameroon
+Ghana,0,1,Uruguay
 USA,2,2,Wales
-Saudi Arabia,0,2,Mexico
-Argentina,2,0,Saudi Arabia
-Argentina,1,0,Mexico
-Uruguay,0,0,South Korea
-Canada,0,1,Morocco
-Portugal,2,2,Ghana
-Portugal,1,1,Uruguay
-Netherlands,1,0,Ecuador
-Netherlands,1,0,Qatar
-Australia,0,3,Denmark
-Japan,2,2,Costa Rica
-Japan,2,2,Spain
+Mexico,1,1,Poland
+Cameroon,0,1,Serbia
+Cameroon,0,2,Brazil
+Netherlands,2,1,Ecuador
+Netherlands,3,1,Qatar
+Morocco,0,1,Croatia
 England,2,0,Iran
-England,1,2,USA
-Iran,0,2,USA
-Ecuador,0,3,Senegal
+England,1,1,USA
+Switzerland,2,0,Cameroon
+Ecuador,0,0,Senegal
+Tunisia,0,1,Australia
+Tunisia,1,4,France
+Germany,3,1,Japan
+Belgium,1,0,Canada
+Belgium,2,1,Morocco
+Wales,1,1,Iran
+Wales,1,1,England
+Spain,1,0,Costa Rica
+Spain,2,0,Germany
+Denmark,2,0,Tunisia
+South Korea,1,0,Portugal
+South Korea,2,2,Ghana
 Serbia,0,1,Switzerland
+Iran,0,2,USA
+Canada,0,1,Morocco
+France,1,0,Australia
+France,1,0,Denmark
+Uruguay,0,0,South Korea
+Argentina,3,0,Saudi Arabia
+Argentina,2,0,Mexico
+Senegal,2,0,Netherlands
+Australia,0,3,Denmark
